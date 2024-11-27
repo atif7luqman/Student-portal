@@ -1,10 +1,11 @@
 import { Box, TextField, Typography, Button, Link } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LoginSchema } from "../schema/LoginSchema";
-import PersonIcon from '@mui/icons-material/Person';
-// import ProfileIcon from "../assets/ProfileIcon.svg";
-// import AuthService from "../services/auth-service";
+import PersonIcon from "@mui/icons-material/Person";
+import iba from '../assets/iba.jpg';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useState } from "react";
 
 const initialValues = {
   email: "",
@@ -12,7 +13,6 @@ const initialValues = {
 };
 
 const Login = () => {
-  //   const navigate = useNavigate(); // Initialize useNavigate
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
@@ -22,153 +22,150 @@ const Login = () => {
       },
     });
 
-  // console.log("🚀 ~ Login ~ values:", values);
   console.log("🚀 ~ Login ~ errors:", errors);
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  
 
   return (
     <>
       <Box
         sx={{
           height: "100vh",
-          flexGrow: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           margin: 0,
           padding: 0,
-          width: `100vw`,
+          width: "100vw",
           overflowX: "hidden",
+          backgroundImage: `url(${iba})`,  // Set the background image here
+          backgroundSize: "cover",  // Stretch the background image to cover the screen
+          backgroundPosition: "center",  // Center the background image
+          backgroundRepeat: "no-repeat",  // Prevent the background from repeating
         }}
       >
-        <Box>
-          <Box
-            sx={{
-              m: "5px",
-              fontSize: "24px",
-              fontWeight: "bold",
-              color: "secondary.main",
-            }}
-          >
-            Sukkur IBA
-          </Box>
-        </Box>
-
+        {/* Top Left Text: Sukkur IBA */}
         <Box
           sx={{
-            marginTop: "5rem",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            position: "absolute",
+            top: 16, // Distance from top of the page
+            left: 16, // Distance from left of the page
+            fontSize: "30px",
+            fontWeight: "bold",
+            color: "secondary.main",
           }}
         >
-          {/* Login Form */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              boxShadow: 3,
-              borderRadius: 2,
-              padding: 1,
-              width: 628,
-            }}
-          >
-            <Box sx={{ pl: "10rem" }}>
-              {/* Login Icon */}
-              <Box
+          Sukkur IBA
+        </Box>
+
+        {/* Centered Red Box */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            boxShadow: 3,
+            borderRadius: 2,
+            padding: 2,
+            width: 628,
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',  // Optional: background with transparency
+          }}
+        >
+          <Box sx={{ pl: "10rem" }}>
+            {/* Login Icon */}
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+              }}
+            >
+              <PersonIcon sx={{ alignSelf: "center", fontSize: 30 }} />
+              <Typography
+                component="h1"
+                variant="h5"
                 sx={{
-                  display: "flex",
-                  gap: 2, // Space between Avatar and Typography
+                  fontSize: "24px",
+                  lineHeight: "40px",
                 }}
               >
-                {/* Login Icon */}
-                <PersonIcon sx={{alignSelf:"center",fontSize:30}}/>
-                {/* Login Title */}
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  sx={{
-                    fontSize: "24px", // Adjust this size to match Avatar size
-                    lineHeight: "40px", // Match height of avatar (40px)
-                  }}
-                >
-                  Login
-                </Typography>
-              </Box>
+                Login
+              </Typography>
+            </Box>
 
-              {/* Email and Password Input */}
-              <Box
-                component="form"
-                noValidate
-                onSubmit={handleSubmit}
-                sx={{ mt: 1 }}
+            {/* Login Form */}
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                type="email"
+                placeholder="Email"
+                autoComplete="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(errors.email && touched.email)}  // Set error flag
+                helperText={errors.email && touched.email ? errors.email : ''}  // Display error message
+              />
+
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                placeholder="Password"
+                autoComplete="current-password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(errors.password && touched.password)}  // Set error flag
+                helperText={errors.password && touched.password ? errors.password : ''}  
+              />
+
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "secondary.main",
+                  borderRadius: "8px",
+                  textTransform: "none",
+                }}
               >
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="email"
-                  label="Email"
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  autoComplete="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.email && touched.email ? (
-                  <p className="form-error">{errors.email}</p>
-                ) : null}
+                Login
+              </Button>
+            </Box>
 
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                  autoComplete="current-password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.password && touched.password ? (
-                  <p className="form-error">{errors.password}</p>
-                ) : null}
-
-                {/* Login Button */}
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    mt: 3,
-                    mb: 2,
-                    backgroundColor: "secondary.main",
-                    borderRadius: "8px",
-                    textTransform: "none",
-                  }}
-                >
-                  Login
-                </Button>
-              </Box>
-
-              {/* Links */}
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Link
-                  href="/register"
-                  variant="body2"
-                  sx={{ textDecoration: "none" }}
-                >
-                  Register here
-                </Link>
-                <Link
-                  href="/reset-password"
-                  variant="body2"
-                  sx={{ textDecoration: "none" }}
-                >
-                  Forgot your password
-                </Link>
-              </Box>
+            {/* Links */}
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Link
+                href="/register"
+                variant="body2"
+                sx={{ textDecoration: "none" }}
+              >
+                Register here
+              </Link>
+              <Link
+                href="/reset-password"
+                variant="body2"
+                sx={{ textDecoration: "none" }}
+              >
+                Forgot your password
+              </Link>
             </Box>
           </Box>
         </Box>
