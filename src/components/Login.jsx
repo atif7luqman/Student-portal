@@ -1,57 +1,29 @@
 import { Box, TextField, Typography, Button, Link } from "@mui/material";
 // import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useFormik } from "formik";
+import { LoginSchema } from "../schema/LoginSchema";
+import PersonIcon from '@mui/icons-material/Person';
 // import ProfileIcon from "../assets/ProfileIcon.svg";
 // import AuthService from "../services/auth-service";
 
+const initialValues = {
+  email: "",
+  password: "",
+};
+
 const Login = () => {
-//   const navigate = useNavigate(); // Initialize useNavigate
-  const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: "",
-  });
+  //   const navigate = useNavigate(); // Initialize useNavigate
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues,
+      validationSchema: LoginSchema,
+      onSubmit: (values) => {
+        console.log("🚀 ~ Login ~ values:", values);
+      },
+    });
 
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
-  const handleInputChange = (e) => {
-    // console.log(e);
-    setError("");
-    setSuccessMessage('');
-    const { name, value } = e.target;
-    console.log(`label: ${name}  input: ${value}`);
-    setLoginForm({ ...loginForm, [name]: value });
-    // Object.entries(formValues).forEach(([label, input]) => {
-    //   console.log(`${label} : ${input || "__"}`);
-    // });
-    // console.log("---------------------");
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e, path) => {
-    e.preventDefault();
-    console.log('Form Data');
-    console.log(FormData);
-    // Call signup service
-    // try {
-    //   console.log("Login form");
-    //   console.log(loginForm);
-    //   const response = await AuthService.login(loginForm);
-
-    //   console.log('response in template');
-    //   // console.log(response);
-
-    //   if (response?.data) {
-    //     setSuccessMessage("Login Successful.");
-    //     navigate(path);
-    //   } else {
-    //     setError(response.errors[0].message || "login failed!");
-    //   }
-    // } catch (e) {
-    //   console.log("catch block");
-    //   console.log(e);
-    // }
-  };
+  // console.log("🚀 ~ Login ~ values:", values);
+  console.log("🚀 ~ Login ~ errors:", errors);
 
   return (
     <>
@@ -66,11 +38,15 @@ const Login = () => {
         }}
       >
         <Box>
-          <Box sx={{ m: "5px", fontSize: "24px", fontWeight: "bold" }}>
-            Flexi
-            <Box sx={{ color: "secondary.main", display: "inline" }}>
-              Parser
-            </Box>
+          <Box
+            sx={{
+              m: "5px",
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "secondary.main",
+            }}
+          >
+            Sukkur IBA
           </Box>
         </Box>
 
@@ -90,7 +66,7 @@ const Login = () => {
               alignItems: "center",
               boxShadow: 3,
               borderRadius: 2,
-              padding: 3,
+              padding: 1,
               width: 628,
             }}
           >
@@ -103,8 +79,7 @@ const Login = () => {
                 }}
               >
                 {/* Login Icon */}
-                {/* <img src={ProfileIcon} alt="profile icon" width={30} /> */}
-
+                <PersonIcon sx={{alignSelf:"center",fontSize:30}}/>
                 {/* Login Title */}
                 <Typography
                   component="h1"
@@ -122,44 +97,44 @@ const Login = () => {
               <Box
                 component="form"
                 noValidate
-                onSubmit={(e) => handleSubmit(e, "/")}
+                onSubmit={handleSubmit}
                 sx={{ mt: 1 }}
               >
                 <TextField
                   variant="outlined"
                   margin="normal"
-                  required
                   fullWidth
                   id="email"
                   label="Email"
                   name="email"
+                  type="email"
+                  placeholder="Email"
                   autoComplete="email"
-                  autoFocus
-                  onChange={handleInputChange}
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                {errors.email && touched.email ? (
+                  <p className="form-error">{errors.email}</p>
+                ) : null}
 
                 <TextField
                   variant="outlined"
                   margin="normal"
-                  required
                   fullWidth
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
+                  placeholder="Password"
                   autoComplete="current-password"
-                  onChange={handleInputChange}
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-
-                {/* Error and Success Messages */}
-                {error && (
-                  <Typography color="error">
-                    {error || "this-----eror"}
-                  </Typography>
-                )}
-                {successMessage && (
-                  <Typography color="primary">{successMessage}</Typography>
-                )}
+                {errors.password && touched.password ? (
+                  <p className="form-error">{errors.password}</p>
+                ) : null}
 
                 {/* Login Button */}
                 <Button
@@ -170,7 +145,7 @@ const Login = () => {
                     mb: 2,
                     backgroundColor: "secondary.main",
                     borderRadius: "8px",
-                    textTransform: 'none'
+                    textTransform: "none",
                   }}
                 >
                   Login

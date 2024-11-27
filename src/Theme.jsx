@@ -8,7 +8,7 @@ const theme = (mode) =>
         main: "#000000", // Main Color
       },
       secondary: {
-        main: "#06B2AF", // teal or Accent Color
+        main: '#0000ff' // "#06B2AF", // teal or Accent Color
       },
       background: {
         default: mode === "light" ? "#FFFFFF" : "#1A1A1A",
